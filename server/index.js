@@ -1,17 +1,17 @@
 const express = require('express');
+const socket = require('socket.io');
 const app = express();
 
-const http = require('http');
-const server = http.createServer(app);
+const port = 3000;
 
-const socket = require('socket.io');
-const io = socket(server);
+const server = app.listen(port, function() {
+    console.log(`Listening on port: ${port}`)
+});
 
-io.on('connection', onConnection);
+app.use(express.static('client'));
 
-function onConnection() {
-    socket.on('drawing', (data) => socket.broadcast.emit('drawing', data))
-}
+const sock = socket(server);
 
-const port = 8081;
-server.listen(port, () => consolee.log(`server is running on ${port}`));
+sock.on('connection', function(socket) {
+    console.log(`Connection made with socket ${socket.id}`);
+})
