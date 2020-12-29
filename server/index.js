@@ -17,8 +17,15 @@ sock.on('connection', function(socket) {
 
     // When the server recieves a chat
     socket.on('chat', function(data) {
-        console.log(data)
         // emit to sendd the 'chat' event to everybody connected, including user
-        sock.sockets.emit("chat", data);
+        sock.sockets.emit('chat', data);
+    });
+
+    socket.on('typing', function(data) {
+        socket.broadcast.emit('typing', data)
+    });
+
+    socket.on('stoppedTyping', function() {
+        socket.broadcast.emit('stoppedTyping');
     })
 })
