@@ -14,4 +14,11 @@ const sock = socket(server);
 
 sock.on('connection', function(socket) {
     console.log(`Connection made with socket ${socket.id}`);
+
+    // When the server recieves a chat
+    socket.on('chat', function(data) {
+        console.log(data)
+        // emit to sendd the 'chat' event to everybody connected, including user
+        sock.sockets.emit("chat", data);
+    })
 })
