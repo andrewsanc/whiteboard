@@ -17,15 +17,22 @@ sock.on('connection', function(socket) {
 
     // When the server recieves a chat
     socket.on('chat', function(data) {
-        // emit to sendd the 'chat' event to everybody connected, including user
+        // emit the 'chat' event to everybody connected, including user
         sock.sockets.emit('chat', data);
     });
 
+    // When the server recieves a typing event
     socket.on('typing', function(data) {
         socket.broadcast.emit('typing', data)
     });
 
+    // When the server recieves a user stopped typing event
     socket.on('stoppedTyping', function() {
         socket.broadcast.emit('stoppedTyping');
+    });
+
+    // When the server recieves plots from a user
+    socket.on('draw', function(data) {
+        sock.sockets.emit('draw', data);
     })
 })
